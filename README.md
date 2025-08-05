@@ -89,6 +89,8 @@ https://github.com/user-attachments/assets/7197f81b-ba7a-4c94-a2fc-c163c8b2312e
   - Issac Sim导入urdf
     - [视频教程](https://www.youtube.com/watch?v=AMfEtZ4hyLY)
 	- [含urdf文件的示例项目：SO-ARM100](https://github.com/TheRobotStudio/SO-ARM100)
+  - [子豪群的飞书文档链接](https://zihao-ai.feishu.cn/wiki/HM3WwVsyEiOs4wkfR4McvRaUn5d)
+    - [舵机初始化](https://zihao-ai.feishu.cn/wiki/DZDvw7Gg6iZkBdkxbcpcGSmkn4b)
 
 ## Issues记录
   - Issac Sim导入open mini duck的urdf时，报accessed invalid null prim（未解决）
