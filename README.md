@@ -28,7 +28,26 @@
 	- Add your `mjcf` assets in `xmls`. 
 	- Edit `joystick.py` : to choose the rewards you are interested in
 		- Note: for now there is still some hard coded values etc. We'll improve things on the way
-	- Edit `runner.py` and then run it
+	- Edit `runner.py` and then run it(mujoco will be lauched automatically?)
+	```bash
+	# in Windows(unsuccessful)
+	pip install uv
+	uv venv -p 3.12
+	uv run playground/<robot>/runner.py #这一步还是会报You're on Windows (`win_amd64`), but `jax-cuda12-plugin` (v0.6.1) only has wheels for the following platforms: `manylinux2014_aarch64`, `manylinux2014_x86_64`; consider adding your platform to `tool.uv.required-environments` to ensure uv resolves to a version with compatible wheels
+	
+	# wsl2(ubuntu 22.04.5)
+	conda env list
+	conda create -n mujoco python=3.11
+	conda activate mujoco
+	pip install mujoco -i https://mirrors.aliyun.com/pypi/simple/
+	git clone https://github.com/apirrone/Open_Duck_Playground.git
+	cd Open_Duck_Playground
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	uv run playground/open_duck_mini_v2/runner.py
+	
+	# in linux(suppose to be ok)
+	uv run playground/<robot>/runner.py 
+	```
   - 在mujoco里跑onnx模型（即查看onnx模型）
   ```
   uv run playground/open_duck_mini_v2/mujoco_infer.py -o <path_to_.onnx> (-k)
@@ -84,13 +103,71 @@ https://github.com/user-attachments/assets/7197f81b-ba7a-4c94-a2fc-c163c8b2312e
 	- [mujoco](https://github.com/google-deepmind/mujoco)
 	- [mujoco windows](https://mujoco.readthedocs.io/en/latest/programming/#getting-started)：直接运行windows版本的mujoco文件夹下/bin文件夹下的simulate.exe即可
 	- [Issac Sim下载、安装和启动](https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/download.html)：下载Isaac Sim包和关联资产包并设置后，解压直接运行Isaac Sim包下的isaac-sim.selector.bat
-	
+
+## Ubuntu 22.04.5安装Isaac Sim 4.5.0(直接上Isaac Sim 5.0 + Isaac Lab 2.2)
+  - 硬件资源：RTX 5070ti 16G(NVIDIA-SMI：570.153.02，Driver version: 570.153.02，CUDA Version：12.8)
+  - 软件环境：
+    - 操作系统：Ubuntu 22.04.5 desktop
+	- ROS2 Humble版本：小鱼ROS
+	- gazebo版本：Gazebo Classic Simulator (ROS2 Humble)，注意不是更新的Gazebo Harmonic Simulator (ROS2 Jazzy&Humble)版本
+	- mujoco版本：3.3.3
+	- Issac Sim及对应的Isaac Sim Assets版本：[5.0](https://github.com/isaac-sim/IsaacSim?tab=readme-ov-file#quick-start)
+        - Isaac Lab版本：[2.2](https://github.com/isaac-sim/IsaacLab/tree/feature/isaacsim_5_0?tab=readme-ov-file)
+        ```bash
+        # isaaclab install(https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/pip_installation.html#installing-isaac-lab)
+        conda create -n env_isaaclab python=3.10
+        conda activate env_isaaclab
+        pip install --upgrade --pre torch torchvision --index-url https://download.pytorch.org/whl/nightly/cu128
+        ./isaaclab.sh --install  # cd isaaclab root directory
+        source _isaac_sim/setup_conda_env.sh  # avoid ModuleNotFoundError: No module named 'isaacsim' error
+        ./isaaclab.sh -p scripts/tutorials/00_sim/create_empty.py
+        # or
+        python scripts/tutorials/00_sim/create_empty.py
+        ./isaaclab.sh -p scripts/reinforcement_learning/rsl_rl/train.py --task=Isaac-Ant-v0 --headless
+        ```
+  - issues:
+    - [GUI blur](https://forums.developer.nvidia.com/t/the-isaac-sim-gui-is-blurry/327759/11): Need to wait for the upgration of isaac sim (kit version should upper than 106.5.3, you can see the kit version in 'help'->'about'). You can try to upgrade issac sim from 4.5.0 to 5.0(not release the production version yet, you can build from github repository)?
+    - [saac Sim ROS Workspace](https://docs.isaacsim.omniverse.nvidia.com/5.0.0/installation/install_ros.html#enabling-rclpy-custom-ros-2-packages-and-workspaces-with-python-3-11)
+      - 先安装python 3.11
+      - 执行`./build_ros.sh -d humble -v 22.04`可能下载有些包失败，直接修改对应的dockerfile（例如dockerfiles/ubuntu_22_humble_python_311_minimal.dockerfile），把python镜像源加入相应失败的下载指令后
+    - [ROS on Ubuntu 20.04, No module named 'rclpy._rclpy_pybind11'](https://6fingers.me/ros-on-ubuntu-20-04-no-module-named-rclpy-_rclpy_pybind11)：切换默认的python的版本
+  - [脚本记录(Isaac Sim和ROS2互相通讯，用h1跑强化学习policy)](https://docs.isaacsim.omniverse.nvidia.com/5.0.0/ros2_tutorials/tutorial_ros2_rl_controller.html#)：
+  ```
+# ros2 cmd init
+source /opt/ros/humble/setup.bash
+
+# ros2 cmd
+ros topic list
+
+ros2 run demo_nodes_cpp talker
+ros2 run demo_nodes_py listener
+
+# ros2 isaac sim workspace init(https://github.com/isaac-sim/IsaacSim-ros_workspaces)
+source /opt/ros/humble/setup.bash
+#cd repository/humble_ws, for example: ~/IsaacSim-ros_workspaces/humble_ws
+cd ~/IsaacSim-ros_workspaces/humble_ws
+source install/local_setup.bash
+# cd the h1_fullbody_controller ROS2 package and then run the ROS2 policy
+cd ~/IsaacSim-ros_workspaces/humble_ws/src/humanoid_locomotion_policy_example/h1_fullbody_controller/launch
+ros2 launch h1_fullbody_controller h1_fullbody_controller.launch.py # run the ROS2 policy
+  ```
+  - [Isaac Sim倒入]
 ## 其他
   - Issac Sim导入urdf
-    - [视频教程](https://www.youtube.com/watch?v=AMfEtZ4hyLY)
-	- [含urdf文件的示例项目：SO-ARM100](https://github.com/TheRobotStudio/SO-ARM100)
-  - [子豪群的飞书文档链接](https://zihao-ai.feishu.cn/wiki/HM3WwVsyEiOs4wkfR4McvRaUn5d)
-    - [舵机初始化](https://zihao-ai.feishu.cn/wiki/DZDvw7Gg6iZkBdkxbcpcGSmkn4b)
+    - [视频教程1](https://www.youtube.com/watch?v=AMfEtZ4hyLY)
+      - [含urdf文件的示例项目：SO-ARM100](https://github.com/TheRobotStudio/SO-ARM100)
+    - [视频教程2](https://www.youtube.com/watch?v=Ym5jav5scfA)
+      - [Joint Physics: Computing Stiffness and Damping in URDF Importers](https://lycheeai-hub.com/project-so-arm101-x-isaac-sim-x-isaac-lab-tutorial-series/so-arm-import-urdf-to-isaac-sim)：带多个教程集锦，例如解释urdf导入时的刚度和阻尼参数含义。
+  - Isaac Gym(RL)
+    - [Installation](file:///home/jay/workspace/IsaacGym_Preview_4_Package/isaacgym/docs/install.html)
+      - [python joint_monkey.py缺少libpython3.7m.so.1.0库](https://blog.csdn.net/weixin_45392674/article/details/126300556): `export LD_LIBRARY_PATH=/home/jay/miniconda3/envs/rlgpu/lib`
+    - [robot project: OpenTinker-V2](https://github.com/golaced/OmniBotSeries-Tinker)
+      - [开源双足机器人OpenTinker-V2，手把手制作迪士尼BDX入门强化学习！](https://www.bilibili.com/video/BV1FRZoY1ExW/?spm_id_from=333.1387.homepage.video_card.click)
+      - [feishu document](https://hcn64ij2s2xr.feishu.cn/wiki/AZJxwlvEpiWnRrkeBbGc21U9n7f)
+      - [error: undefined symbol: iJIT_NotifyEvent --- downgrade the mkl](https://blog.csdn.net/mr_hore/article/details/138961434): `pip install mkl=2024.0`
 
 ## Issues记录
   - Issac Sim导入open mini duck的urdf时，报accessed invalid null prim（未解决）
+  - playground运行runner报错：jaxlib._jax.XlaRuntimeError：[已解决，更改pyproject.toml中nvidia-cublas-cu12的版本](https://github.com/apirrone/Open_Duck_Playground/issues/15#issuecomment-2945798975)
+  - playground运行runner下载包超时：[已解决，设置clash的tun模式，见链接的评论区](https://zhuanlan.zhihu.com/p/153124468)
+  - playground运行runner报错：'cuModuleLoadData(&module, data)' failed with 'CUDA_ERROR_INVALID_PTX'（未解决，[链接1](https://github.com/tensorflow/tensorflow/issues/90291) [链接2](https://github.com/tensorflow/tensorflow/issues/89272)）
