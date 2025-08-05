@@ -166,7 +166,7 @@ https://github.com/user-attachments/assets/7197f81b-ba7a-4c94-a2fc-c163c8b2312e
       - [feishu document](https://hcn64ij2s2xr.feishu.cn/wiki/AZJxwlvEpiWnRrkeBbGc21U9n7f)
       - [error: undefined symbol: iJIT_NotifyEvent --- downgrade the mkl](https://blog.csdn.net/mr_hore/article/details/138961434): `pip install mkl=2024.0`
   - [子豪群的飞书文档链接](https://zihao-ai.feishu.cn/wiki/HM3WwVsyEiOs4wkfR4McvRaUn5d)
-	- [舵机初始化](https://zihao-ai.feishu.cn/wiki/DZDvw7Gg6iZkBdkxbcpcGSmkn4b)
+	- [舵机初始化：包含open_duck_mini_runtime仓库的编译安装，尤其设计飞特舵机的相关库](https://zihao-ai.feishu.cn/wiki/DZDvw7Gg6iZkBdkxbcpcGSmkn4b)
 
 ## Issues记录
   - Issac Sim导入open mini duck的urdf时，报accessed invalid null prim（未解决）
