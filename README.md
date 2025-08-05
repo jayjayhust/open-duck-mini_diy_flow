@@ -133,23 +133,23 @@ https://github.com/user-attachments/assets/7197f81b-ba7a-4c94-a2fc-c163c8b2312e
     - [ROS on Ubuntu 20.04, No module named 'rclpy._rclpy_pybind11'](https://6fingers.me/ros-on-ubuntu-20-04-no-module-named-rclpy-_rclpy_pybind11)：切换默认的python的版本
   - [脚本记录(Isaac Sim和ROS2互相通讯，用h1跑强化学习policy)](https://docs.isaacsim.omniverse.nvidia.com/5.0.0/ros2_tutorials/tutorial_ros2_rl_controller.html#)：
   ```
-# ros2 cmd init
-source /opt/ros/humble/setup.bash
+	# ros2 cmd init
+	source /opt/ros/humble/setup.bash
 
-# ros2 cmd
-ros topic list
+	# ros2 cmd
+	ros topic list
 
-ros2 run demo_nodes_cpp talker
-ros2 run demo_nodes_py listener
+	ros2 run demo_nodes_cpp talker
+	ros2 run demo_nodes_py listener
 
-# ros2 isaac sim workspace init(https://github.com/isaac-sim/IsaacSim-ros_workspaces)
-source /opt/ros/humble/setup.bash
-#cd repository/humble_ws, for example: ~/IsaacSim-ros_workspaces/humble_ws
-cd ~/IsaacSim-ros_workspaces/humble_ws
-source install/local_setup.bash
-# cd the h1_fullbody_controller ROS2 package and then run the ROS2 policy
-cd ~/IsaacSim-ros_workspaces/humble_ws/src/humanoid_locomotion_policy_example/h1_fullbody_controller/launch
-ros2 launch h1_fullbody_controller h1_fullbody_controller.launch.py # run the ROS2 policy
+	# ros2 isaac sim workspace init(https://github.com/isaac-sim/IsaacSim-ros_workspaces)
+	source /opt/ros/humble/setup.bash
+	#cd repository/humble_ws, for example: ~/IsaacSim-ros_workspaces/humble_ws
+	cd ~/IsaacSim-ros_workspaces/humble_ws
+	source install/local_setup.bash
+	# cd the h1_fullbody_controller ROS2 package and then run the ROS2 policy
+	cd ~/IsaacSim-ros_workspaces/humble_ws/src/humanoid_locomotion_policy_example/h1_fullbody_controller/launch
+	ros2 launch h1_fullbody_controller h1_fullbody_controller.launch.py # run the ROS2 policy
   ```
   - [Isaac Sim倒入]
 ## 其他
@@ -165,6 +165,8 @@ ros2 launch h1_fullbody_controller h1_fullbody_controller.launch.py # run the RO
       - [开源双足机器人OpenTinker-V2，手把手制作迪士尼BDX入门强化学习！](https://www.bilibili.com/video/BV1FRZoY1ExW/?spm_id_from=333.1387.homepage.video_card.click)
       - [feishu document](https://hcn64ij2s2xr.feishu.cn/wiki/AZJxwlvEpiWnRrkeBbGc21U9n7f)
       - [error: undefined symbol: iJIT_NotifyEvent --- downgrade the mkl](https://blog.csdn.net/mr_hore/article/details/138961434): `pip install mkl=2024.0`
+  - [子豪群的飞书文档链接](https://zihao-ai.feishu.cn/wiki/HM3WwVsyEiOs4wkfR4McvRaUn5d)
+	- [舵机初始化](https://zihao-ai.feishu.cn/wiki/DZDvw7Gg6iZkBdkxbcpcGSmkn4b)
 
 ## Issues记录
   - Issac Sim导入open mini duck的urdf时，报accessed invalid null prim（未解决）
