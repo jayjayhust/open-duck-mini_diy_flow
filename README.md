@@ -115,7 +115,7 @@ https://github.com/user-attachments/assets/7197f81b-ba7a-4c94-a2fc-c163c8b2312e
         - Isaac Lab版本：[2.2](https://github.com/isaac-sim/IsaacLab/tree/feature/isaacsim_5_0?tab=readme-ov-file)
         ```bash
         # isaaclab install(https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/pip_installation.html#installing-isaac-lab)
-        conda create -n env_isaaclab python=3.10
+        conda create -n env_isaaclab python=3.11  # isaaclab 5.0 needs python 3.11
         conda activate env_isaaclab
         pip install --upgrade --pre torch torchvision --index-url https://download.pytorch.org/whl/nightly/cu128
         ./isaaclab.sh --install  # cd isaaclab root directory
@@ -173,3 +173,4 @@ https://github.com/user-attachments/assets/7197f81b-ba7a-4c94-a2fc-c163c8b2312e
   - playground运行runner报错：jaxlib._jax.XlaRuntimeError：[已解决，更改pyproject.toml中nvidia-cublas-cu12的版本](https://github.com/apirrone/Open_Duck_Playground/issues/15#issuecomment-2945798975)
   - playground运行runner下载包超时：[已解决，设置clash的tun模式，见链接的评论区](https://zhuanlan.zhihu.com/p/153124468)
   - playground运行runner报错：'cuModuleLoadData(&module, data)' failed with 'CUDA_ERROR_INVALID_PTX'（未解决，[链接1](https://github.com/tensorflow/tensorflow/issues/90291) [链接2](https://github.com/tensorflow/tensorflow/issues/89272)）
+  - Isaaclab运行报No module named 'carb._carb'：[已解决，conda建虚拟环境时选择python 3.11](https://github.com/isaac-sim/IsaacLab/issues/3039)[官方discuss](https://github.com/isaac-sim/IsaacLab/discussions/3021)
