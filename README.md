@@ -1,5 +1,8 @@
 # Open Mini Duck手搓
 
+## 源项目
+本项目是对[Open Duck Mini](https://github.com/apirrone/Open_Duck_Mini)项目的DIY复现记录。
+
 ## 流程综述
 
 ### [placo](https://github.com/Rhoban/placo)(PlaCo is Rhoban's planning and control library)：生成步态相关参数的库
