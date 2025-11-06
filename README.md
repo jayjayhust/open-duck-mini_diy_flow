@@ -12,7 +12,7 @@
   - 类似的issue: https://github.com/stack-of-tasks/pinocchio/issues/2349
   - 如果是源码编译安装的方式，要把编译后的placo库路径添加到PYTHONPATH
   ```bash
-  # 假设我的源码仓库地址为：/home/jay/workspace/placo
+  # 假设我的源码仓库地址为：/home/jay/workspace/placo，python版本为3.10
   export PYTHONPATH="/home/jay/workspace/placo/build/lib/python3.10/site-packages:$PYTHONPATH"
   ```
 
