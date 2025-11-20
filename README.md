@@ -1,4 +1,4 @@
-# Open Mini Duck手搓
+# Open Duck Mini手搓
 
 ## 源项目
 本项目是对[Open Duck Mini](https://github.com/apirrone/Open_Duck_Mini)项目的DIY复现记录。
